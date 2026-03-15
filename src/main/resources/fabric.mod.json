@@ -1,0 +1,33 @@
+{
+	"schemaVersion": 1,
+	"id": "debughudmodifier",
+	"version": "${version}",
+	"name": "DebugHudModifier",
+	"description": "Allows you to modify the texts in the debug screen.",
+	"authors": [
+		"an3oo"
+	],
+	"contact": {
+		"homepage": "yuanshen.com",
+		"sources": "yuanshen.com"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/debughudmodifier/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.wary.DebugHudModifier"
+		]
+	},
+	"mixins": [
+		"debughudmodifier.mixins.json"
+	],
+	"depends": {
+		"fabricloader": "*",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "*",
+		"fabric-key-binding-api-v1": "*"
+	},
+	"accessWidener": "wary.accesswidener"
+}
