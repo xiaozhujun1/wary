@@ -69,12 +69,12 @@ public class ConfigGui {
                     AutoConfig.getConfigHolder(Config.class).save();
                 })
                 .build());
-        general.addEntry(entryBuilder.startBooleanToggle(Text.of("test option"), testOption)
+        general.addEntry(entryBuilder.startBooleanToggle(Text.of("Nether Portal Scanner"), portalScanner)
                 .setDefaultValue(false)
                 .setTooltip(Text.of("testtooltip"))
                 .setSaveConsumer(newValue ->{
-                    testOption = newValue;
-                    config.testoption = newValue;
+                    portalScanner = newValue;
+                    config.portalScanner = newValue;
                     AutoConfig.getConfigHolder(Config.class).save();
                 })
                 .build());

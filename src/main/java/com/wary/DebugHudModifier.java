@@ -45,7 +45,7 @@ public class DebugHudModifier implements ModInitializer {
 	public static String playerZ;
 	public static boolean disableInSpawn = false;
 	public static boolean fakeCoordsEnabled = false;
-	public static boolean testOption = false;
+	public static boolean portalScanner = false;
 	public static Config config;
 
 	private static KeyBinding keyBinding;
@@ -88,7 +88,7 @@ public class DebugHudModifier implements ModInitializer {
 	private void scanChunkForPortals(World world, Chunk chunk) {
 		// 用于记录所有 portal 方块
 		//List<BlockPos> portalPositions = new ArrayList<>();
-
+		if (!portalScanner) return;
 		int chunkX = chunk.getPos().x;
 		int chunkZ = chunk.getPos().z;
 
@@ -125,7 +125,7 @@ public class DebugHudModifier implements ModInitializer {
 		offsetZ = config.offsetz;
 		disableInSpawn = config.disableinspawn;
 		fakeCoordsEnabled = config.fakecoordsenabled;
-		testOption = config.testoption;
+		portalScanner = config.portalScanner;
 		spawnRadius = config.spawnradius;
 
 		ModifierCommands modifierCommands = new ModifierCommands();

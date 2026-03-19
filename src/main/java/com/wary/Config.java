@@ -9,5 +9,5 @@ public class Config implements ConfigData {
     public int spawnradius = 10000;
     public boolean disableinspawn = false;
     public boolean fakecoordsenabled = false;
-    public boolean testoption = false;
+    public boolean portalScanner = false;
 }
