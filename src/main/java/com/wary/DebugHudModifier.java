@@ -4,13 +4,20 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientChunkEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +49,7 @@ public class DebugHudModifier implements ModInitializer {
 	public static Config config;
 
 	private static KeyBinding keyBinding;
+    private static KeyBinding customScreenKeyBinding;
 
 	public static String extractWithSplit(String str) {
 		// 找到第一个数字的位置
@@ -77,6 +85,37 @@ public class DebugHudModifier implements ModInitializer {
         return Math.abs(mc.player.getX()) < spawnRadius && Math.abs(mc.player.getZ()) < spawnRadius && disableInSpawn;
     }
 
+	private void scanChunkForPortals(World world, Chunk chunk) {
+		// 用于记录所有 portal 方块
+		//List<BlockPos> portalPositions = new ArrayList<>();
+
+		int chunkX = chunk.getPos().x;
+		int chunkZ = chunk.getPos().z;
+
+		int minY = 0;
+		int maxY = 128;
+
+		// 1. 收集当前 chunk 中所有 portal 方块
+		for (int x = 0; x < 16; x++) {
+			for (int z = 0; z < 16; z++) {
+				for (int y = minY; y < maxY; y++) {
+					BlockPos pos = new BlockPos(chunkX * 16 + x, y, chunkZ * 16 + z);
+					if (!world.getBlockState(pos).isOf(Blocks.NETHER_PORTAL)) {continue;}
+						//portalPositions.add(pos.toImmutable());
+					if (world.getBlockState(pos.add(0,1,0)).isOf(Blocks.NETHER_PORTAL)
+							&& world.getBlockState(pos.add(0,2,0)).isOf(Blocks.NETHER_PORTAL)
+							&& world.getBlockState(pos.down(1)).isOf(Blocks.OBSIDIAN)) {
+						mc.inGameHud.getChatHud().addMessage(Text.of("Scanned:" + pos));
+					}
+				}
+			}
+		}
+
+//		if (portalPositions.isEmpty()) {
+//			return;
+//		}
+	}
+
 	@Override
 	public void onInitialize() {
 		mc = MinecraftClient.getInstance();
@@ -99,10 +138,23 @@ public class DebugHudModifier implements ModInitializer {
 				new KeyBinding.Category(Identifier.of("debughudmodifier"))
 		));
 
+        // 注册自定义屏幕快捷键
+        customScreenKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "Open Custom Screen",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_L,
+                new KeyBinding.Category(Identifier.of("debughudmodifier"))
+        ));
+
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (keyBinding.wasPressed()) {
                 mc.setScreen(createConfigScreen(mc.currentScreen));
             }
+            while (customScreenKeyBinding.wasPressed()) {
+                mc.setScreen(new CustomScreen(mc.currentScreen));
+            }
         });
+
+		ClientChunkEvents.CHUNK_LOAD.register((this::scanChunkForPortals));
 	}
 }
