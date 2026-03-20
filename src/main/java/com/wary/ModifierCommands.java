@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallba
 import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.math.BlockPos;
 
 import static com.wary.ConfigGui.createConfigScreen;
 import static com.wary.DebugHudModifier.*;
@@ -82,7 +83,7 @@ public class ModifierCommands {
                 )
                 .then(ClientCommandManager.literal("test")
                         .executes(commandContext -> {
-                            mc.setScreen(createConfigScreen(new GameMenuScreen(true)));
+                            glowBlock(commandContext.getSource(), new BlockPos(1,1,1), null,1, 0xffffff);
                             return 1;
                         })
                 )
