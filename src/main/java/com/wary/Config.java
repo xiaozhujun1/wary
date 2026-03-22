@@ -10,4 +10,7 @@ public class Config implements ConfigData {
     public boolean disableinspawn = false;
     public boolean fakecoordsenabled = false;
     public boolean portalScanner = false;
+    public boolean ominousVaultScanner = false;
+    public boolean trialSpawnerScanner = false;
+    public boolean chestScanner = false;
 }

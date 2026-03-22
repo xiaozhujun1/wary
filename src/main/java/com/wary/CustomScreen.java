@@ -1,11 +1,14 @@
 package com.wary;
 
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec2f;
 import org.joml.Matrix3x2fStack;
@@ -46,6 +49,9 @@ public class CustomScreen extends Screen {
         context.fill(x + menuWidth, y, x + menuWidth + borderWidth, y + menuHeight, 0xAA888888);
         
         // 绘制测试三角形
+
+
+
     }
 
 

@@ -78,6 +78,33 @@ public class ConfigGui {
                     AutoConfig.getConfigHolder(Config.class).save();
                 })
                 .build());
+        general.addEntry(entryBuilder.startBooleanToggle(Text.of("Trial Spawner Scanner"), trialSpawnerScanner)
+                .setDefaultValue(false)
+                .setTooltip(Text.of("testtooltip"))
+                .setSaveConsumer(newValue ->{
+                    trialSpawnerScanner = newValue;
+                    config.trialSpawnerScanner = newValue;
+                    AutoConfig.getConfigHolder(Config.class).save();
+                })
+                .build());
+        general.addEntry(entryBuilder.startBooleanToggle(Text.of("Ominous Vault Scanner"), ominousVaultScanner)
+                .setDefaultValue(false)
+                .setTooltip(Text.of("testtooltip"))
+                .setSaveConsumer(newValue ->{
+                    ominousVaultScanner = newValue;
+                    config.ominousVaultScanner = newValue;
+                    AutoConfig.getConfigHolder(Config.class).save();
+                })
+                .build());
+        general.addEntry(entryBuilder.startBooleanToggle(Text.of("Chest Scanner"), chestScanner)
+                .setDefaultValue(false)
+                .setTooltip(Text.of("testtooltip"))
+                .setSaveConsumer(newValue ->{
+                    chestScanner = newValue;
+                    config.chestScanner = newValue;
+                    AutoConfig.getConfigHolder(Config.class).save();
+                })
+                .build());
         return builder;
     }
 
